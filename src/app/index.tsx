@@ -1,98 +1,120 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
-
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
-  return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
+import { StyleSheet, Text, View, Pressable } from 'react-native';
+import { router } from 'expo-router';
 
 export default function HomeScreen() {
   return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.emoji}>🛠️</Text>
+        <Text style={styles.title}>Teknik Destek</Text>
+        <Text style={styles.subtitle}>
+          Arıza takip sistemine hoş geldin.
+        </Text>
+      </View>
 
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
+      <View style={styles.card}>
+        <Text style={styles.cardTitle}>Arıza Takip Merkezi</Text>
+        <Text style={styles.description}>
+          Arızaları görüntüleyebilir ve yeni arıza kaydı oluşturabilirsin.
+        </Text>
 
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
+        <Pressable
+          style={styles.primaryButton}
+          onPress={() => {
+            console.log('Arıza Listesi butonuna basıldı');
+            router.push('/ariza-listesi');
+          }}
+        >
+          <Text style={styles.primaryButtonText}>Arıza Listesi</Text>
+        </Pressable>
 
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
+        <Pressable
+          style={styles.secondaryButton}
+          onPress={() => router.push('/yeni-ariza')}
+        >
+          <Text style={styles.secondaryButtonText}>+ Yeni Arıza Oluştur</Text>
+        </Pressable>
+      </View>
+
+      <Text style={styles.footer}>
+        Mobil Programlama • Ariza Takip
+      </Text>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#F3F6FB',
+    padding: 24,
     justifyContent: 'center',
-    flexDirection: 'row',
   },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
+  header: {
     alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
+    marginBottom: 32,
   },
-  heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
+  emoji: {
+    fontSize: 48,
+    marginBottom: 12,
   },
   title: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: '#172554',
+  },
+  subtitle: {
+    fontSize: 15,
+    color: '#64748B',
+    marginTop: 10,
     textAlign: 'center',
   },
-  code: {
-    textTransform: 'uppercase',
+  card: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    padding: 24,
+    elevation: 3,
   },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
+  cardTitle: {
+    fontSize: 21,
+    fontWeight: 'bold',
+    color: '#1E293B',
+    marginBottom: 10,
+  },
+  description: {
+    color: '#64748B',
+    fontSize: 15,
+    lineHeight: 23,
+    marginBottom: 24,
+  },
+  primaryButton: {
+    backgroundColor: '#2563EB',
+    padding: 16,
+    borderRadius: 12,
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  primaryButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  secondaryButton: {
+    backgroundColor: '#E2E8F0',
+    padding: 16,
+    borderRadius: 12,
+    alignItems: 'center',
+  },
+  secondaryButtonText: {
+    color: '#1E293B',
+    fontSize: 15,
+    fontWeight: '600',
+  },
+  footer: {
+    textAlign: 'center',
+    color: '#94A3B8',
+    marginTop: 28,
+    fontSize: 12,
   },
 });
