@@ -1,7 +1,11 @@
 {
+<<<<<<< HEAD
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit",
     "source.organizeImports": "explicit",
     "source.sortMembers": "explicit"
   }
 }
+=======
+}
+>>>>>>> 1b2fca4c11231a7d7cce21012c910319c7fed2f6
